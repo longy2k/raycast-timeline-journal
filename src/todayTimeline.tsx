@@ -1,4 +1,14 @@
-import { List, ActionPanel, Action, Detail, getPreferenceValues, showToast, Toast, Icon } from "@raycast/api";
+import {
+  List,
+  ActionPanel,
+  Action,
+  Detail,
+  getPreferenceValues,
+  showToast,
+  Toast,
+  Icon,
+  confirmAlert,
+} from "@raycast/api";
 import fs from "fs";
 import { useState } from "react";
 import { dateFormat, timeFormat } from "./utils/dateAndTime";
@@ -36,18 +46,28 @@ export default function Command() {
   };
 
   // Delete bullet point at the specified index
-  const deleteEntry = (index: number) => {
-    const originalBulletPoints = fileContent.split("\n").filter((line) => line.startsWith("- "));
-    const actualIndex = insertPosition === "append" ? originalBulletPoints.length - 1 - index : index;
-    if (actualIndex < 0 || actualIndex >= originalBulletPoints.length) {
-      showToast(Toast.Style.Failure, "Error: Invalid index");
-      return;
-    }
+  const deleteEntry = async (index: number) => {
+    const isConfirmed = await confirmAlert({
+      title: "Confirm Deletion",
+      message: "Are you sure you want to delete this entry?",
+      primaryAction: {
+        title: "Delete",
+      },
+    });
 
-    originalBulletPoints.splice(actualIndex, 1);
-    const updatedContent = originalBulletPoints.join("\n");
-    updateFileContent(updatedContent);
-    showToast(Toast.Style.Success, "Entry Deleted.");
+    if (isConfirmed) {
+      const originalBulletPoints = fileContent.split("\n").filter((line) => line.startsWith("- "));
+      const actualIndex = insertPosition === "append" ? originalBulletPoints.length - 1 - index : index;
+      if (actualIndex < 0 || actualIndex >= originalBulletPoints.length) {
+        showToast(Toast.Style.Failure, "Error: Invalid index");
+        return;
+      }
+
+      originalBulletPoints.splice(actualIndex, 1);
+      const updatedContent = originalBulletPoints.join("\n");
+      updateFileContent(updatedContent);
+      showToast(Toast.Style.Success, "Entry Deleted.");
+    }
   };
 
   // Filter bullet points based on search text
@@ -84,7 +104,12 @@ export default function Command() {
                     icon={Icon.Circle}
                     target={<Detail markdown={point.replace("- ", "")} />}
                   />
-                  <Action title="Delete Entry" icon={Icon.MinusCircle} onAction={() => deleteEntry(index)} />
+                  <Action
+                    title="Delete Entry"
+                    icon={Icon.MinusCircle}
+                    style={Action.Style.Destructive}
+                    onAction={() => deleteEntry(index)}
+                  />
                   <Action.Open title="Open File" target={filePath} />
                 </ActionPanel>
               }
