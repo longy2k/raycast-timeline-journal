@@ -36,7 +36,7 @@ export default function Command() {
   };
 
   // Delete bullet point at the specified index
-  const deleteTimestamp = (index: number) => {
+  const deleteEntry = (index: number) => {
     const originalBulletPoints = fileContent.split("\n").filter((line) => line.startsWith("- "));
     const actualIndex = insertPosition === "append" ? originalBulletPoints.length - 1 - index : index;
     if (actualIndex < 0 || actualIndex >= originalBulletPoints.length) {
@@ -47,7 +47,7 @@ export default function Command() {
     originalBulletPoints.splice(actualIndex, 1);
     const updatedContent = originalBulletPoints.join("\n");
     updateFileContent(updatedContent);
-    showToast(Toast.Style.Success, "Timestamp deleted");
+    showToast(Toast.Style.Success, "Entry Deleted.");
   };
 
   // Filter bullet points based on search text
@@ -84,7 +84,7 @@ export default function Command() {
                     icon={Icon.Circle}
                     target={<Detail markdown={point.replace("- ", "")} />}
                   />
-                  <Action title="Delete Timestamp" icon={Icon.MinusCircle} onAction={() => deleteTimestamp(index)} />
+                  <Action title="Delete Entry" icon={Icon.MinusCircle} onAction={() => deleteEntry(index)} />
                   <Action.Open title="Open File" target={filePath} />
                 </ActionPanel>
               }
