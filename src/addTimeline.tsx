@@ -1,4 +1,4 @@
-import { ActionPanel, Form, Action, getPreferenceValues, showToast, Toast, Icon } from "@raycast/api";
+import { ActionPanel, Form, Action, getPreferenceValues, showToast, Toast, Icon, popToRoot } from "@raycast/api";
 import fs from "fs";
 import { useState } from "react";
 import { dateFormat, timeFormat } from "./utils/dateAndTime";
@@ -37,7 +37,7 @@ export default function Command() {
       updateFileContent(`${newBulletPoint}\n${currentContent}`);
     }
     showToast(Toast.Style.Success, "Added to Today's Timeline");
-    setTextareaValue("");
+    popToRoot({ clearSearchBar: true });
   };
 
   return (
