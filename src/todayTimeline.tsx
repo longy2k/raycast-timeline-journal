@@ -1,4 +1,4 @@
-import { List, ActionPanel, Action, Detail, getPreferenceValues, showToast, Toast } from "@raycast/api";
+import { List, ActionPanel, Action, Detail, getPreferenceValues, showToast, Toast, Icon } from "@raycast/api";
 import fs from "fs";
 import { useState } from "react";
 import { dateFormat, timeFormat } from "./utils/dateAndTime";
@@ -63,7 +63,11 @@ export default function Command() {
       searchBarAccessory={
         searchText.trim() ? (
           <ActionPanel>
-            <Action title="Add to Timeline" onAction={() => appendOrPrependBulletPoint(insertPosition)} />
+            <Action
+              title="Add to Timeline"
+              icon={Icon.PlusCircle}
+              onAction={() => appendOrPrependBulletPoint(insertPosition)}
+            />
           </ActionPanel>
         ) : undefined
       }
@@ -75,8 +79,12 @@ export default function Command() {
               title={point.replace("- ", "")}
               actions={
                 <ActionPanel>
-                  <Action.Push title="Show Details" target={<Detail markdown={point.replace("- ", "")} />} />
-                  <Action title="Delete Timestamp" onAction={() => deleteTimestamp(index)} />
+                  <Action.Push
+                    title="Show Details"
+                    icon={Icon.Circle}
+                    target={<Detail markdown={point.replace("- ", "")} />}
+                  />
+                  <Action title="Delete Timestamp" icon={Icon.MinusCircle} onAction={() => deleteTimestamp(index)} />
                   <Action.Open title="Open File" target={filePath} />
                 </ActionPanel>
               }
@@ -87,7 +95,11 @@ export default function Command() {
               title="Add to Timeline"
               actions={
                 <ActionPanel>
-                  <Action title="Add to Timeline" onAction={() => appendOrPrependBulletPoint(insertPosition)} />
+                  <Action
+                    title="Add to Timeline"
+                    icon={Icon.PlusCircle}
+                    onAction={() => appendOrPrependBulletPoint(insertPosition)}
+                  />
                 </ActionPanel>
               }
             />

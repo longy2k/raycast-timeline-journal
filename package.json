@@ -83,7 +83,7 @@
   ],
   "commands": [
     {
-      "name": "dailyTimeline",
+      "name": "todayTimeline",
       "title": "Today's Timeline",
       "description": "Search or add to today's timeline.",
       "mode": "view"

@@ -1,4 +1,4 @@
-import { ActionPanel, Form, Action, getPreferenceValues, showToast, Toast } from "@raycast/api";
+import { ActionPanel, Form, Action, getPreferenceValues, showToast, Toast, Icon } from "@raycast/api";
 import fs from "fs";
 import { useState } from "react";
 import { dateFormat, timeFormat } from "./utils/dateAndTime";
@@ -44,7 +44,7 @@ export default function Command() {
     <Form
       actions={
         <ActionPanel>
-          <Action.SubmitForm title="Add to Timeline" onSubmit={handleFormSubmit} />
+          <Action.SubmitForm title="Add to Timeline" icon={Icon.PlusCircle} onSubmit={handleFormSubmit} />
         </ActionPanel>
       }
     >
